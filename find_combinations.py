@@ -60,4 +60,5 @@ for i in range(len(routes)):
   add_flight(routes, i)
 
 for route in routes:
-  print(route.source(), route.destination(), route.price(), len(route.flights()))
+  if route.is_valid():
+    print(route.source(), route.destination(), route.price(2), len(route.flights()))
