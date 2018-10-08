@@ -1,62 +1,12 @@
-"""
-TODO:
-4. Print the matches
-"""
-
-import sys
-from datetime import datetime
-from flight import Flight, DATE_FORMAT
 from route import Route
-
-def display_flights(bags):
-  print("Flights where %s bag(s) is/are allowed\n" % bags)
-  for route in routes:
-    if route.is_valid() and route.bags_allowed(bags):
-      print("{} -> {} -> {}, price: {}" .
-            format(route.source(), route.connections(), route.destination(), route.price(bags)))
-  print()
-
-
-def add_flight(routes, index):
-  route = routes[index]
-
-  if len(route.flights()[-1].connections) == 0:
-    return
-
-  if len(route.flights()[-1].connections) > 1:
-    for connection in route.flights()[-1].connections[1:]:
-      new = Route(route.flights()[0])
-
-      for flight in route.flights()[1:]:
-        new.add_route(flight)
-
-      new.add_route(connection)
-      routes.append(new)
-
-  route.add_route(route.flights()[-1].connections[0])
-
-  add_flight(routes, index)
-
-
-def parse_flight(flight):
-  params = flight.split(",")
-
-  params[2] = datetime.strptime(params[2], DATE_FORMAT)
-  params[3] = datetime.strptime(params[3], DATE_FORMAT)
-  params[5] = int(params[5])
-  params[6] = int(params[6])
-  params[7] = int(params[7])
-
-  return Flight(*params)
-
+from utils import parse_flight, add_flight, display_flights, load_flights
 
 flights = []
 routes = []
 
-lines = sys.stdin.read().splitlines()
+lines = load_flights()
 
-# skip the first line of columns
-for line in lines[1:]:
+for line in lines:
   flights.append(parse_flight(line))
 
 for flight in flights:
@@ -70,6 +20,6 @@ for i in range(len(routes)):
   add_flight(routes, i)
 
 #print bags
-display_flights(0)
-display_flights(1)
-display_flights(2)
+display_flights(routes, 0)
+display_flights(routes, 1)
+display_flights(routes, 2)

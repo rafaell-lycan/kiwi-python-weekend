@@ -21,7 +21,7 @@ class Route(object):
 
   # get the beginning of the trip
   def source(self):
-    return "[{}] {}".format(self.route[0].flight_number, self.route[0].source)
+    return self.route[0].source
 
   def destination(self):
     return self.route[-1].destination
