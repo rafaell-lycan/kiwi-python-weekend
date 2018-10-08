@@ -21,10 +21,20 @@ class Route(object):
 
   # get the beginning of the trip
   def source(self):
-    return self.route[0].source
+    return "[{}] {}".format(self.route[0].flight_number, self.route[0].source)
 
   def destination(self):
     return self.route[-1].destination
+
+  # calculate the amount of connections/legs
+  def connections(self):
+    connect = []
+    for route in self.route[:-1]:
+      connect.append(route.destination)
+
+    connect = " -> ".join(connect)
+
+    return connect
 
   # filter by the amount of bags
   def bags_allowed(self, bags):

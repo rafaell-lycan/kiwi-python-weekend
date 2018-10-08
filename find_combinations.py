@@ -8,6 +8,15 @@ from datetime import datetime
 from flight import Flight, DATE_FORMAT
 from route import Route
 
+def display_flights(bags):
+  print("Flights where %s bag(s) is/are allowed\n" % bags)
+  for route in routes:
+    if route.is_valid() and route.bags_allowed(bags):
+      print("{} -> {} -> {}, price: {}" .
+            format(route.source(), route.connections(), route.destination(), route.price(bags)))
+  print()
+
+
 def add_flight(routes, index):
   route = routes[index]
 
@@ -40,6 +49,7 @@ def parse_flight(flight):
 
   return Flight(*params)
 
+
 flights = []
 routes = []
 
@@ -59,6 +69,7 @@ for flight in flights:
 for i in range(len(routes)):
   add_flight(routes, i)
 
-for route in routes:
-  if route.is_valid():
-    print(route.source(), route.destination(), route.price(2), len(route.flights()))
+#print bags
+display_flights(0)
+display_flights(1)
+display_flights(2)
